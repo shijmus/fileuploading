@@ -1,0 +1,17 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.restapi.utils.StorageProperties",
+      "name": "storage",
+      "type": "com.restapi.utils.StorageProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.restapi.utils.StorageProperties",
+      "name": "storage.location",
+      "type": "java.lang.String"
+    }
+  ]
+}

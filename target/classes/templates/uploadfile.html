@@ -1,0 +1,94 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link type="text/css" rel="stylesheet" th:href="@{/css/style2.css}" />
+<meta charset="utf-8" />
+</head>
+<body>
+<div id="wrap">
+	<div id="header">
+		<h1><a th:href="@{/}">File/Metadata Uploader</a></h1>
+	</div>
+
+	<div id="sidebar">
+		<h3>Upload Files</h3><hr />
+			<form id="uploadForm" method="POST" enctype="multipart/form-data" th:action="@{/files}">
+				<table class="sidetable">
+					<tr>
+						<td>File to upload:</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="file" name="file" class="fileinput" />
+						</td>
+					</tr>
+					<table class="sidetable">
+						<td><br />Additional MetaData<hr /></td>
+							<tr>
+								<td>Your Name:</td>
+							</tr>
+							<tr>
+								<td><input type="text" th:name="person"></input></td>
+							</tr>
+							<tr>
+								<td>Extra Notes:</td>
+							</tr>
+							<tr>
+								<td><input type="text" th:name="extranotes"></input></td>
+							</tr>
+					</table>
+						<tr>
+							<td>
+								<div class="hr">
+								</div>
+								<input id="fileSubmit" type="submit" value="Upload" class="submit" />
+							</td>
+						</tr>
+				</table>
+			</form>
+		
+		<div class="message" th:if="${message}">
+			<hr />
+			<h4 th:text="${message}" />
+			<div class="hr"></div>
+		</div>
+	</div>
+
+	<div id="main">
+		<div class="tableheight">
+			<h3>Uploaded Files</h3><hr />
+				<h4 th:if="${(#lists.isEmpty(files))&amp;&amp;(#lists.isEmpty(props))}">You currently have no files uploaded!</h4>
+			<table id="table">
+				<tr th:each="file, iter: ${files}" th:if="${iter.index % 2==0}">
+					<td th:each="name, iter : ${#strings.setSplit(file,'/')}" type="submit" th:if="${iter.index == iter.size-1}" th:text="${name}"></td>
+        			<td th:each="name, iter : ${#strings.setSplit(file,'/')}" type="submit" th:if="${iter.index == iter.size-1}">
+        				<form th:action="@{'files/prop/'+${name}}"><input type="submit" value="Check Meta" class="submit" /></form>
+					</td>
+				</tr>
+				<tr th:each="prop, iter : ${props}">
+					<td th:if="${iter.index==0}" ><br /><h4>Metadata for <span th:text="'File: ' + ${prop}"></span></h4></td>
+				</tr>
+				<tr th:each="prop, iter : ${props}">
+					<td th:if="${iter.index==0}" th:text="'Filename: ' + ${prop}"></td>
+					<td th:if="${iter.index==1}" th:text="'Owner name: '+${prop}"></td>
+					<td th:if="${iter.index==2}" th:text="'Extra notes: '+${prop}"></td>
+					<td th:if="${iter.index==3}" th:text="'Upload time: '+${prop}"></td>
+					<td th:if="${iter.index==4}" th:text="'UUID: '+${prop}"></td>
+				</tr>
+			</table>
+				<br />
+				<br />
+			</div>
+				<div th:if="${!(#lists.isEmpty(files)&amp;&amp;#lists.isEmpty(props))}">
+					<hr />
+					<div>
+						<h4>Click to check uploaded files:</h4>
+						<a th:href="@{/}"><input class="submit" value="Check Files" /></a>
+					</div>						
+				</div>
+		</div>
+	<div class="footer">
+		<p>RESTFul API @ March, 2017</p>
+	</div>
+</div>
+</body>
+</html>
